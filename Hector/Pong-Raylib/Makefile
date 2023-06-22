@@ -3,6 +3,6 @@ includes = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 CFLAGS = -Wall -Wextra -pedantic -o 
 
 all:
-	$(CXX) $(CFLAGS) WindowC++ WindowC++.cpp $(includes)
+	$(CXX) $(CFLAGS) Pong Pong.cpp $(includes)
 cl: 
-	rm WindowC++
+	rm Pong
