@@ -1,16 +1,18 @@
 #include "GameObject.h"
 #include "TextureManager.h"
 #include <SDL2/SDL_render.h>
-GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren)
+GameObject::GameObject(const char* texturesheet, float x, float y)
 {
-	renderer = ren;
-	objTexture = TextureManager::LoadTexture(texturesheet, ren);
-	xpos = 0;
-	ypos = 0;
+	objTexture = TextureManager::LoadTexture(texturesheet);
+	xpos = x;
+	ypos = y;
 }
 
 void GameObject::oUpdate()
 {
+	xpos++;
+	ypos++;
+
 	srcRect.h = 50;
 	srcRect.w = 50;
 	srcRect.x = 0;
@@ -24,5 +26,5 @@ void GameObject::oUpdate()
 void GameObject::oRender()
 {	//for some reason the srcRect doesnt work here
 	//SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
-	SDL_RenderCopy(renderer, objTexture, NULL, &destRect);
+	SDL_RenderCopy(Game::renderer, objTexture, NULL, &destRect);
 }

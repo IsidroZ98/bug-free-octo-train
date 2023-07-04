@@ -26,10 +26,12 @@ void render();
 void Clean(); 
 
 bool _Running(){return isRunning;}
+
+static SDL_Renderer *renderer;
+
 private:
 	bool isRunning;
 	SDL_Window *window;
-	SDL_Renderer *renderer;
 		
 };
 #endif
