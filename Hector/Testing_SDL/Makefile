@@ -1,12 +1,13 @@
 CXX = g++
 CFLAGS = -Wall -Wextra -pedantic -g -o 
-CPP = Game.cpp TextureManager.cpp GameObject.cpp
-LFLAGS= -lSDL2 -lSDL2_image
+CPP = Game.cpp TextureManager.cpp GameObject.cpp Map.cpp
+HEAD = Game.h TextureManager.h GameObject.h Map.h
+LFLAGS= -lmingw32 -lSDL2main -lSDL2 -lSDL2_image 
 
  
 
 all:
-	$(CXX) $(CFLAGS) SDL SDL.cpp $(CPP) Game.h TextureManager.h GameObject.h $(LFLAGS)
+	$(CXX) -I src/include -L src/lib $(CFLAGS) SDL SDL.cpp $(CPP) $(HEAD) $(LFLAGS)
 
 cl:
-	rm SDL
+	rm SDL.exe

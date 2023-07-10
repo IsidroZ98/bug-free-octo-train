@@ -2,36 +2,30 @@
 #define GAME_H
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_error.h>
-#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
-#include <SDL2/SDL_video.h>
-#include <bits/stdc++.h>
+#include <iostream>
 
 class Game {
-public:
-Game();
-~Game();
-void Create_Window(const int WIDTH, const int HEIGHT, bool fullscrn);
+	public:
+		Game();
+		~Game();
+		void Create_Window(const int WIDTH, const int HEIGHT, bool fullscrn);
 
-void handelEvents();
-void update();
-void render();
-void Clean(); 
+		void handelEvents();
+		void update();
+		void render();
+		void Clean(); 
 
-bool _Running(){return isRunning;}
+		bool _Running(){return isRunning;}
 
-static SDL_Renderer *renderer;
+		static SDL_Renderer *renderer;
 
-private:
-	bool isRunning;
-	SDL_Window *window;
+	private:
+		bool isRunning;
+		SDL_Window *window;
 		
 };
 #endif
