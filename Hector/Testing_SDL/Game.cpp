@@ -3,9 +3,16 @@
 #include "GameObject.h"
 #include "Map.h"
 
+#include "ECS.h" 
+#include "Components.h"
+
 GameObject* player;
 GameObject* enemy;
 Map* map;
+
+Manager manager;
+auto& newPlayer(manager.addEntity());
+
 
 Game::Game(){}
 Game::~Game(){}
@@ -38,10 +45,13 @@ void Game::Create_Window(const int WIDTH, const int HEIGHT, bool fullscrn){
 	std::cout<<"Enemy Created\n";
 	enemy = new GameObject("assets/Enemy.png", 200, 200);
 
+
+	newPlayer.addComponent<PositionComponent>();
 }
 void Game::update(){
 	player->oUpdate();
 	enemy->oUpdate();
+	manager.update();
 }
 void Game::render(){
 	SDL_RenderClear(renderer);
