@@ -46,18 +46,25 @@ class Component{
 class Entity
 {
   public:
+    
     void update()
     {
       for(auto& c: components)c->update();
+    }
+    
+    void draw()
+    {
       for(auto& c: components) c->draw();
     }
-    void draw(){}
+
     bool isActive()const {return active;}
     void destroy() {active = false;}
+
     template<typename T> bool hasComponent() const
     {
-      return componentBitSet[getComponentTypeID<T>];
+      return componentBitSet[getComponentTypeID<T>()];
     }
+    
     template<typename T, typename... TArgs>
     T& addComponent(TArgs&&... mArgs){
       T* c(new T(std::forward<TArgs>(mArgs)...));
@@ -99,9 +106,13 @@ class Manager
     void refresh()
     {
       entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-                    [](const std::unique_ptr<Entity>  &mEntity){return !mEntity->isActive();}),
-                    std::end(entities));
+			  [](const std::unique_ptr<Entity> &mEntity)
+        {
+          return !mEntity->isActive();
+        }),
+          std::end(entities));
     }
+    
     Entity& addEntity()
     {
       Entity* e = new Entity();

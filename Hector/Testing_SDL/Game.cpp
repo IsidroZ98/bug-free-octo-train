@@ -1,18 +1,19 @@
 #include "Game.h"
 #include "TextureManager.h"
-#include "GameObject.h"
 #include "Map.h"
+#include "ECS/Components.h"
+#include "Vector2D.h"
+#include "Collision.h"
 
-#include "ECS.h" 
-#include "Components.h"
+#define LOG(x) std::cout<<"created "<<x<<"\n";
 
-GameObject* player;
-GameObject* enemy;
+SDL_Event Game::event;
+
 Map* map;
-
 Manager manager;
-auto& newPlayer(manager.addEntity());
 
+auto& player(manager.addEntity());
+auto& wall(manager.addEntity());
 
 Game::Game(){}
 Game::~Game(){}
@@ -30,34 +31,41 @@ void Game::Create_Window(const int WIDTH, const int HEIGHT, bool fullscrn){
 	{
 		std::cout<<"Window Initialised....\n";
 		window = SDL_CreateWindow("SDL TUT", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT,flags);
-		std::cout<<"Window Created\n";
+		LOG("Window");
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if(renderer){
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-			std::cout<<"render Created\n";
+			LOG("render Created");
 		}
 		isRunning = true;
 	}
-	std::cout<<"map Created\n";
+	LOG("map");
 	map = new Map();
-	std::cout<<"player Created\n";
-	player = new GameObject("assets/player.png",0,0);
-	std::cout<<"Enemy Created\n";
-	enemy = new GameObject("assets/Enemy.png", 200, 200);
 
+	LOG("player");
+	player.addComponent<TransformComponent>(2);
+	player.addComponent<SpriteComponent>("assets/player.png");
+	player.addComponent<KeyboardController>();
+	player.addComponent<ColliderComponent>("player");
 
-	newPlayer.addComponent<PositionComponent>();
+	wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
+	wall.addComponent<SpriteComponent>("assets/wall.png");
+	wall.addComponent<ColliderComponent>("wall");
+
 }
 void Game::update(){
-	player->oUpdate();
-	enemy->oUpdate();
+	manager.refresh();
 	manager.update();
+	if(Collision::AABB(player.getComponent<ColliderComponent>().collider, wall.getComponent<ColliderComponent>().collider))
+	{
+		player.getComponent<TransformComponent>().velocity * -1;
+		LOG("walll hit");
+	}
 }
 void Game::render(){
 	SDL_RenderClear(renderer);
 	map->DrawMap();
-	player->oRender();
-	enemy->oRender();
+	manager.draw();
 	SDL_RenderPresent(renderer);
 }
 void Game::Clean(){
@@ -67,8 +75,18 @@ void Game::Clean(){
 	std::cout<<"sweeped window\n";
 }
 void Game::handelEvents(){
-	SDL_Event event;
 	SDL_PollEvent(&event);
+	if(Game::event.type == SDL_KEYDOWN)
+	{
+    switch (Game::event.key.keysym.sym){
+			case SDLK_q:
+				isRunning =false;
+				break;
+			default:
+				break;
+		}
+	}
+
 	switch (event.type){
 		case SDL_QUIT:
 			isRunning =false;

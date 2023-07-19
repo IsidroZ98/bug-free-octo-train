@@ -2,6 +2,9 @@
 
 
 int main(int argc , char *argv[]){
+
+ 	(void) argc;
+	(void) argv;
 	
 	const int WIDTH = 1370;
 	const int HEIGHT = 900;
