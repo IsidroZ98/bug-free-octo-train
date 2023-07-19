@@ -1,5 +1,5 @@
 CXX = g++
-includes = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+includes = -lraylib -lgl -lm -lpthread -ldl -lrt -lx11
 CFLAGS = -Wall -Wextra -pedantic -o 
 OBJECTS = Ball.h Paddle.h Cpu.h
 all:
