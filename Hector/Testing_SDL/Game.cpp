@@ -1,9 +1,18 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "Map.h"
+
+#include "ECS.h" 
+#include "Components.h"
 
 GameObject* player;
 GameObject* enemy;
+Map* map;
+
+Manager manager;
+auto& newPlayer(manager.addEntity());
+
 
 Game::Game(){}
 Game::~Game(){}
@@ -29,18 +38,24 @@ void Game::Create_Window(const int WIDTH, const int HEIGHT, bool fullscrn){
 		}
 		isRunning = true;
 	}
+	std::cout<<"map Created\n";
+	map = new Map();
 	std::cout<<"player Created\n";
 	player = new GameObject("assets/player.png",0,0);
 	std::cout<<"Enemy Created\n";
 	enemy = new GameObject("assets/Enemy.png", 200, 200);
 
+
+	newPlayer.addComponent<PositionComponent>();
 }
 void Game::update(){
 	player->oUpdate();
 	enemy->oUpdate();
+	manager.update();
 }
 void Game::render(){
 	SDL_RenderClear(renderer);
+	map->DrawMap();
 	player->oRender();
 	enemy->oRender();
 	SDL_RenderPresent(renderer);

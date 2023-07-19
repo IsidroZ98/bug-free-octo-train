@@ -1,6 +1,5 @@
 #include "GameObject.h"
 #include "TextureManager.h"
-#include <SDL2/SDL_render.h>
 GameObject::GameObject(const char* texturesheet, float x, float y)
 {
 	objTexture = TextureManager::LoadTexture(texturesheet);

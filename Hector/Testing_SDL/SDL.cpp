@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-int main(){
+int main(int argc , char *argv[]){
 	
 	const int WIDTH = 1370;
 	const int HEIGHT = 900;
